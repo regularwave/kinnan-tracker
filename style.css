@@ -60,7 +60,7 @@ body {
     width: 99%;
     text-align: center;
     border: 1px solid black;
-    border-radius: .4rem;
+    border-radius: .5rem;
     background-color: rgba(0, 0, 0, 0.75);
 }
 
@@ -97,8 +97,8 @@ input[type=number]::-webkit-outer-spin-button {
     border: none;
     align-items: center;
     justify-content: center;
-    width: 4rem;
-    height: 4rem;
+    width: 5rem;
+    height: 5rem;
     cursor: pointer;
     margin: 0;
     position: relative;
@@ -126,13 +126,13 @@ input[type=number]::-webkit-outer-spin-button {
     border: solid #ddd;
     border-width: 0 2px;
     font-size: 2rem;
-    height: 4rem;
+    height: 5rem;
     font-weight: bold;
     text-align: center;
 }
 
 .manasymbol {
     display: inline-block;
-    width: 4rem;
-    height: 4rem;
+    width: 5rem;
+    height: 5rem;
 }

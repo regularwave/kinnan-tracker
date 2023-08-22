@@ -57,10 +57,11 @@ body {
 
 .floatcontainer {
     margin: auto;
-    width: 99%;
+    width: fit-content;
+    padding-left: 2rem;
     text-align: center;
     border: 1px solid black;
-    border-radius: .5rem;
+    border-radius: 2rem;
     background-color: rgba(0, 0, 0, 0.75);
 }
 
@@ -97,7 +98,7 @@ input[type=number]::-webkit-outer-spin-button {
     border: none;
     align-items: center;
     justify-content: center;
-    width: 5rem;
+    width: 6rem;
     height: 5rem;
     cursor: pointer;
     margin: 0;
@@ -120,19 +121,19 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .number-input input[type=number] {
-    font-family: sans-serif;
+    font-family: "Beleren Bold", sans-serif;
     max-width: 5rem;
     padding: .5rem;
     border: solid #ddd;
     border-width: 0 2px;
-    font-size: 2rem;
+    font-size: 4rem;
     height: 5rem;
     font-weight: bold;
     text-align: center;
+    background-color: #ddd;
 }
 
 .manasymbol {
-    display: inline-block;
-    width: 5rem;
-    height: 5rem;
+    width: 4rem;
+    height: 4rem;
 }

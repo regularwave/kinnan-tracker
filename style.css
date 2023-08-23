@@ -126,6 +126,7 @@ input[type=number]::-webkit-outer-spin-button {
     padding: .5rem;
     border: solid #ddd;
     border-width: 0 2px;
+    border-radius: .5rem;
     font-size: 4rem;
     height: 5rem;
     font-weight: bold;
@@ -136,4 +137,18 @@ input[type=number]::-webkit-outer-spin-button {
 .manasymbol {
     width: 4rem;
     height: 4rem;
+}
+
+.zerobtn {
+    outline: #ddd;
+    color: #ddd;
+    background-color: transparent;
+    border: solid 1px #ddd;
+    border-radius: .5rem;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
 }

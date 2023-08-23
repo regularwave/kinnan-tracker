@@ -15,28 +15,29 @@
 <body>
 
     <div id="container" class="floatcontainer">
-    
+
         <div id="content" class="content">
             <br>
             <div class="number-input">
                 <img src="./img/U.svg" alt="" class="manasymbol">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                <input class="quantity" min="0" name="quantity" value="0" type="number">
+                <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
             </div><br><br>
             <div class="number-input">
                 <img src="./img/G.svg" alt="" class="manasymbol">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                <input class="quantity" min="0" name="quantity" value="0" type="number">
+                <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
             </div><br><br>
             <div class="number-input">
                 <img src="./img/C.svg" alt="" class="manasymbol">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                <input class="quantity" min="0" name="quantity" value="0" type="number">
+                <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
             </div>
             <br><br>
+            <button onclick="document.querySelectorAll('input.quantity').forEach((el=>{el.stepDown(99)}))" class="zerobtn">reset</button>
         </div>
 
     </div>

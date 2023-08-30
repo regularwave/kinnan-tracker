@@ -37,7 +37,10 @@
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
             </div>
             <br><br>
-            <button onclick="document.querySelectorAll('input.quantity').forEach((el=>{el.stepDown(99)}))" class="zerobtn">reset</button>
+            CA <input type="text" class="copylabel"> MM <input type="text" class="copylabel"><br>
+            PM <input type="text" class="copylabel"> PI <input type="text" class="copylabel"><br>
+            <br>
+            <button onclick="document.querySelectorAll('input.quantity').forEach(el => el.stepDown(99));document.querySelectorAll('input.copylabel').forEach(el => el.value = '')" class="zerobtn">reset</button>
         </div>
 
     </div>

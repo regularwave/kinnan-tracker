@@ -58,7 +58,8 @@ body {
 .floatcontainer {
     margin: auto;
     width: fit-content;
-    padding-left: 2rem;
+    padding-left: 1rem;
+    /* padding-right: 1rem; */
     text-align: center;
     border: 1px solid black;
     border-radius: 2rem;
@@ -131,7 +132,8 @@ input[type=number]::-webkit-outer-spin-button {
     height: 5rem;
     font-weight: bold;
     text-align: center;
-    background-color: #ddd;
+    background-color: transparent;
+    color: #ddd;
 }
 
 .manasymbol {
@@ -151,4 +153,19 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
     margin: 0;
     position: relative;
+}
+
+input[type=text] {
+    font-family: "Beleren Bold", sans-serif;
+    font-size: 1rem;
+    outline: #ddd;
+    color: #ddd;
+    background-color: transparent;
+    border: solid 1px #ddd;
+    border-radius: .5rem;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    position: relative;
+    width: 30%;
 }

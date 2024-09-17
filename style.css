@@ -93,6 +93,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .number-input button {
     outline: none;
+    appearance: none;
     -webkit-appearance: none;
     background-color: transparent;
     border: none;
@@ -141,6 +142,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .zerobtn {
+    font-family: "Beleren Bold", sans-serif;
     outline: #ddd;
     color: #ddd;
     background-color: transparent;

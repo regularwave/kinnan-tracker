@@ -32,17 +32,18 @@
                 <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
             </div><br><br>
-            <div class="number-input">
+            <!-- <div class="number-input">
                 <img src="./img/S.svg" alt="" class="manasymbol">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
                 <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-            </div>
-            <br><br>
+            </div> -->
+            <!-- <br><br>
             CA <input type="text" class="copylabel"> MM <input type="text" class="copylabel"><br>
-            PM <input type="text" class="copylabel"> PI <input type="text" class="copylabel"><br>
-            <br>
+            PM <input type="text" class="copylabel"> PI <input type="text" class="copylabel"><br> -->
+            <!-- <br><br> -->
             <button onclick="document.querySelectorAll('input.quantity').forEach(el => el.stepDown(99));document.querySelectorAll('input.copylabel').forEach(el => el.value = '')" class="zerobtn">reset</button>
+            <br><br>
         </div>
     </div>
 </body>

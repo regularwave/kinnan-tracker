@@ -1,3 +1,3 @@
 # Kinnan Tracker
 
-Mana pool, phyrexian metamorph, phantasmal image, mirage mirror...
+Mana pool tracking

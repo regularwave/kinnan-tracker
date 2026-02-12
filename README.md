@@ -1,3 +1,3 @@
 # Kinnan Tracker
 
-Mana pool tracking
+Mana pool and commander tax tracking

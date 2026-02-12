@@ -14,39 +14,96 @@
 <body>
     <div id="container" class="floatcontainer">
         <div id="content" class="content">
-            <br>
-            <div class="number-input">
-                <img src="./img/U.svg" alt="" class="manasymbol">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-            </div><br><br>
-            <div class="number-input">
-                <img src="./img/G.svg" alt="" class="manasymbol">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-            </div><br><br>
-            <div class="number-input">
-                <img src="./img/C.svg" alt="" class="manasymbol">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-            </div><br><br>
-            <!-- <div class="number-input">
-                <img src="./img/S.svg" alt="" class="manasymbol">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                <input class="quantity" min="0" max="99" name="quantity" value="0" type="number">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-            </div> -->
-            <!-- <br><br>
-            CA <input type="text" class="copylabel"> MM <input type="text" class="copylabel"><br>
-            PM <input type="text" class="copylabel"> PI <input type="text" class="copylabel"><br> -->
-            <!-- <br><br> -->
-            <button onclick="document.querySelectorAll('input.quantity').forEach(el => el.stepDown(99));document.querySelectorAll('input.copylabel').forEach(el => el.value = '')" class="zerobtn">reset</button>
-            <br><br>
+
+            <div class="tracker-grid">
+                <div class="tile-wrapper">
+                    <div class="manasymbol-container">
+                        <img src="./img/U.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-u" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-u', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-u', -1)">&minus;</button>
+                    </div>
+                </div>
+
+                <div class="tile-wrapper">
+                    <div class="manasymbol-container">
+                        <img src="./img/G.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-g" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-g', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-g', -1)">&minus;</button>
+                    </div>
+                </div>
+
+                <div class="tile-wrapper">
+                    <div class="manasymbol-container">
+                        <img src="./img/C.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-c" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-c', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-c', -1)">&minus;</button>
+                    </div>
+                </div>
+
+                <div class="tile-wrapper">
+                    <div class="manasymbol-container">
+                        <i class="ss ss-foil ss-grad ss-cmd ss-5x manasymbol-icon"></i>
+                    </div>
+                    <input class="quantity" id="tax" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('tax', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('tax', -1)">&minus;</button>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="resetAll()" class="resetbtn">reset</button>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('.quantity');
+            inputs.forEach(input => {
+                const savedValue = localStorage.getItem('kinnan_tracker_' + input.id);
+                if (savedValue !== null) {
+                    input.value = savedValue;
+                }
+            });
+        });
+
+        function updateValue(id, change) {
+            const input = document.getElementById(id);
+            let val = parseInt(input.value) || 0;
+            val += change;
+            saveValues(input, val);
+        }
+
+        function manualUpdate(inputElement) {
+            let val = parseInt(inputElement.value);
+            if (isNaN(val)) val = 0;
+            saveValues(inputElement, val);
+        }
+
+        function saveValues(input, val) {
+            if (val < 0) val = 0;
+            if (val > 99) val = 99;
+            input.value = val;
+            localStorage.setItem('kinnan_tracker_' + input.id, val);
+        }
+
+        function resetAll() {
+            const inputs = document.querySelectorAll('.quantity');
+            inputs.forEach(input => {
+                input.value = 0;
+                localStorage.removeItem('kinnan_tracker_' + input.id);
+            });
+        }
+    </script>
 </body>
 
 </html>

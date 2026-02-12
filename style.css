@@ -179,3 +179,19 @@ input[type=number]::-webkit-outer-spin-button {
 .resetbtn:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
+
+#sticky-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+#sticky-footer a {
+    color: #fff;
+}

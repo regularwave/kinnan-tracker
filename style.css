@@ -130,7 +130,7 @@ body {
     align-items: center;
     justify-content: center;
     line-height: 1;
-    translate: 0 -3px; 
+    translate: 0 -3px;
 }
 
 .manasymbol-icon::before {
@@ -146,7 +146,7 @@ body {
     align-items: center;
     justify-content: center;
     line-height: 1;
-    translate: 0 -3px; 
+    translate: 0 -3px;
 }
 
 input[type="number"] {
@@ -154,6 +154,10 @@ input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
     translate: 0 6px;
+}
+
+input[type="number"]:focus {
+    outline: none;
 }
 
 input[type=number]::-webkit-inner-spin-button,

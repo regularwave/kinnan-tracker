@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kinnan-tracker-20260214T160700';
+const CACHE_NAME = 'kinnan-tracker-20260214T165400';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -6,12 +6,6 @@ const ASSETS_TO_CACHE = [
     './script.js',
     './img/kbp_Jason_Rainville.jpg',
     './img/GU.svg',
-    './img/W.svg',
-    './img/U.svg',
-    './img/B.svg',
-    './img/R.svg',
-    './img/G.svg',
-    './img/C.svg',
     'https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css',
     'https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css',
     './font/Beleren2016-Bold.woff',

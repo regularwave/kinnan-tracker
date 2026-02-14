@@ -126,11 +126,30 @@ body {
 
 .manasymbol-icon {
     font-size: 4rem;
-    line-height: 1;
+    width: 1em;
+    height: 1em;
+    min-width: 1em !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    translate: 0 -3px;
+    line-height: 1;
+    translate: 0 -3px; 
+}
+
+.manasymbol-icon::before {
+    font-size: 0.85em;
+}
+
+.toprow-manasymbol-icon {
+    font-size: 3.5rem;
+    width: 1em;
+    height: 1em;
+    min-width: 1em !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    translate: 0 -3px; 
 }
 
 input[type="number"] {

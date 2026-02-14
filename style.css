@@ -339,7 +339,14 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-@media (min-width: 768px), (orientation: landscape) and (min-width: 560px) {
+@media (min-width: 768px),
+(orientation: landscape) and (min-width: 560px) {
+
+    body {
+        /* This ensures the top alignment specifically in landscape mode */
+        background-position: top center;
+    }
+
     .floatcontainer {
         width: 98vw;
         max-width: 1400px;
@@ -348,29 +355,41 @@ input[type=number]::-webkit-outer-spin-button {
 
     .content {
         display: grid;
-        grid-template-columns: 220px 1fr 50px; 
-        gap: 2rem;
-        align-items: start; 
+        grid-template-columns: auto 1fr 50px;
+        grid-template-areas: "stats mana controls";
+        gap: 1rem;
+        align-items: center;
     }
 
     .top-row {
-        flex-direction: column; 
+        grid-area: stats;
+        flex-direction: column;
         margin-bottom: 0;
         position: sticky;
         top: 1rem;
         gap: 1.5rem;
+        width: 180px;
     }
 
     .top-row .tile-wrapper {
-        min-height: 6.5rem; 
+        min-height: 6.5rem;
     }
-    
-    .top-row .quantity { font-size: 5rem; }
-    .top-row .manasymbol-icon { font-size: 4rem; }
-    .top-row .spinner-btns button { font-size: 3rem; }
+
+    .top-row .quantity {
+        font-size: 5rem;
+    }
+
+    .top-row .manasymbol-icon {
+        font-size: 4rem;
+    }
+
+    .top-row .spinner-btns button {
+        font-size: 3rem;
+    }
 
     .tracker-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        grid-area: mana;
+        grid-template-columns: repeat(3, 1fr);
         margin-bottom: 0;
     }
 
@@ -379,12 +398,13 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .controls-row {
+        grid-area: controls;
         flex-direction: column;
         position: sticky;
         top: 1rem;
         gap: 0.5rem;
         height: auto;
-        width: 100%;
+        width: 50px;
     }
 
     .control-btn {
@@ -393,7 +413,7 @@ input[type=number]::-webkit-outer-spin-button {
         padding: 0;
         border-radius: 0.5rem;
     }
-    
+
     .control-btn i {
         font-size: 1.2rem;
     }

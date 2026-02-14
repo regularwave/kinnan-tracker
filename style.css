@@ -25,6 +25,9 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    overscroll-behavior-y: contain;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .floatcontainer {
@@ -208,6 +211,7 @@ input[type=number]::-webkit-outer-spin-button {
     justify-content: center;
     padding: 0;
     line-height: 1;
+    touch-action: manipulation;
 }
 
 .spinner-btns button:active {
@@ -241,6 +245,7 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
     font-size: 1.5rem;
     transition: background 0.2s, opacity 0.2s;
+    touch-action: manipulation;
 }
 
 .control-btn:hover {

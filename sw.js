@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kinnan-tracker-20260214T1750';
+const CACHE_NAME = 'kinnan-tracker-20260214T180200';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',

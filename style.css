@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo:wght@400;500;700;900&family=Roboto:wght@400;500;700;900&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css');
+@import url('https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css');
 
 @font-face {
     font-family: "Beleren Bold";
@@ -46,6 +46,13 @@ body {
     color: #ddd;
 }
 
+.top-row {
+    display: flex;
+    width: 100%;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
 .tracker-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -56,6 +63,10 @@ body {
 @media (max-width: 375px) {
     .tracker-grid {
         grid-template-columns: 1fr;
+    }
+
+    .top-row {
+        flex-direction: column;
     }
 }
 
@@ -70,6 +81,31 @@ body {
     gap: 0.25rem;
     min-height: 6.5rem;
     padding: 0 0 0 0.5rem;
+    flex: 1;
+}
+
+.top-row .tile-wrapper {
+    min-height: 4rem;
+}
+
+.top-row .quantity {
+    font-size: 3.5rem;
+}
+
+.top-row .manasymbol-icon {
+    font-size: 2.5rem;
+}
+
+.top-row .spinner-btns button {
+    font-size: 2rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.span-full {
+    grid-column: 1 / -1;
 }
 
 .manasymbol-container {
@@ -79,7 +115,6 @@ body {
     width: 1.5rem;
     flex-shrink: 0;
     padding: 0;
-    /* translate: 0 -2px; */
     z-index: 5;
 }
 
@@ -164,20 +199,41 @@ input[type=number]::-webkit-outer-spin-button {
     border-bottom: none;
 }
 
-.resetbtn {
+.controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.control-btn {
     font-family: "Beleren Bold", sans-serif;
     color: #ddd;
     background-color: transparent;
     border: solid 1px #ddd;
     border-radius: .5rem;
-    height: 2.5rem;
-    width: 50%;
+    height: 3rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     font-size: 1.5rem;
-    transition: background 0.2s;
+    transition: background 0.2s, opacity 0.2s;
 }
 
-.resetbtn:hover {
+.control-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-btn.disabled {
+    opacity: 0.4;
+    filter: grayscale(100%);
+}
+
+.control-btn i {
+    font-size: 1.5rem;
 }
 
 #sticky-footer {
@@ -185,13 +241,75 @@ input[type=number]::-webkit-outer-spin-button {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
-    color: #fff;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9));
+    color: #ccc;
     text-align: center;
     padding: 10px 0;
     z-index: 1000;
+    font-size: 0.9rem;
 }
 
-#sticky-footer a {
+#sticky-footer a,
+#sticky-footer span {
     color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#sticky-footer a:hover,
+#sticky-footer span:hover {
+    text-decoration: underline;
+}
+
+#credits-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    color: #ddd;
+    overflow-y: auto;
+}
+
+#credits-modal h2 {
+    margin-top: 0;
+    color: #fff;
+    border-bottom: 1px solid #555;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#credits-modal p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.4;
+    max-width: 600px;
+}
+
+#credits-modal a {
+    color: #4da6ff;
+}
+
+#credits-modal .close-btn {
+    margin-top: 2rem;
+    padding: 0.5rem 2rem;
+    border: 1px solid #ddd;
+    background: transparent;
+    color: #fff;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-family: "Beleren Bold", sans-serif;
+    font-size: 1.2rem;
+}
+
+#credits-modal .close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }

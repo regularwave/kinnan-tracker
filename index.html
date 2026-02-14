@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" type="image/svg" href="img/GU.svg">
 
     <title>Kinnan Tracker</title>
@@ -15,41 +15,19 @@
     <div id="container" class="floatcontainer">
         <div id="content" class="content">
 
-            <div class="tracker-grid">
-                <div class="tile-wrapper">
+            <div id="top-row" class="top-row hidden">
+                <div class="tile-wrapper hidden" id="tile-life">
                     <div class="manasymbol-container">
-                        <img src="./img/U.svg" class="manasymbol-img">
+                        <i class="ms ss-foil ss-grad ms-ability-lifelink manasymbol-icon"></i>
                     </div>
-                    <input class="quantity" id="mana-u" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <input class="quantity" id="life" min="0" max="99" value="40" type="number" oninput="manualUpdate(this)">
                     <div class="spinner-btns">
-                        <button class="plus" onclick="updateValue('mana-u', 1)">&plus;</button>
-                        <button class="minus" onclick="updateValue('mana-u', -1)">&minus;</button>
+                        <button class="plus" onclick="updateValue('life', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('life', -1)">&minus;</button>
                     </div>
                 </div>
 
-                <div class="tile-wrapper">
-                    <div class="manasymbol-container">
-                        <img src="./img/G.svg" class="manasymbol-img">
-                    </div>
-                    <input class="quantity" id="mana-g" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
-                    <div class="spinner-btns">
-                        <button class="plus" onclick="updateValue('mana-g', 1)">&plus;</button>
-                        <button class="minus" onclick="updateValue('mana-g', -1)">&minus;</button>
-                    </div>
-                </div>
-
-                <div class="tile-wrapper">
-                    <div class="manasymbol-container">
-                        <img src="./img/C.svg" class="manasymbol-img">
-                    </div>
-                    <input class="quantity" id="mana-c" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
-                    <div class="spinner-btns">
-                        <button class="plus" onclick="updateValue('mana-c', 1)">&plus;</button>
-                        <button class="minus" onclick="updateValue('mana-c', -1)">&minus;</button>
-                    </div>
-                </div>
-
-                <div class="tile-wrapper">
+                <div class="tile-wrapper hidden" id="tile-tax">
                     <div class="manasymbol-container">
                         <i class="ss ss-foil ss-grad ss-cmd ss-5x manasymbol-icon"></i>
                     </div>
@@ -61,50 +39,127 @@
                 </div>
             </div>
 
-            <button onclick="resetAll()" class="resetbtn">reset</button>
+            <div class="tracker-grid">
+
+                <div class="tile-wrapper hidden" id="tile-w">
+                    <div class="manasymbol-container">
+                        <img src="./img/W.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-w" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-w', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-w', -1)">&minus;</button>
+                    </div>
+                </div>
+
+                <div class="tile-wrapper" id="tile-u">
+                    <div class="manasymbol-container">
+                        <img src="./img/U.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-u" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-u', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-u', -1)">&minus;</button>
+                    </div>
+                </div>
+
+                <div class="tile-wrapper hidden" id="tile-b">
+                    <div class="manasymbol-container">
+                        <img src="./img/B.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-b" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-b', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-b', -1)">&minus;</button>
+                    </div>
+                </div>
+
+                <div class="tile-wrapper hidden" id="tile-r">
+                    <div class="manasymbol-container">
+                        <img src="./img/R.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-r" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-r', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-r', -1)">&minus;</button>
+                    </div>
+                </div>
+
+                <div class="tile-wrapper" id="tile-g">
+                    <div class="manasymbol-container">
+                        <img src="./img/G.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-g" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-g', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-g', -1)">&minus;</button>
+                    </div>
+                </div>
+
+                <div class="tile-wrapper" id="tile-c">
+                    <div class="manasymbol-container">
+                        <img src="./img/C.svg" class="manasymbol-img">
+                    </div>
+                    <input class="quantity" id="mana-c" min="0" max="99" value="0" type="number" oninput="manualUpdate(this)">
+                    <div class="spinner-btns">
+                        <button class="plus" onclick="updateValue('mana-c', 1)">&plus;</button>
+                        <button class="minus" onclick="updateValue('mana-c', -1)">&minus;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <button class="control-btn disabled" id="btn-life" onclick="toggleLife()">
+                    <i class="ms ss-foil ss-grad ms-ability-lifelink"></i>
+                </button>
+                <button class="control-btn disabled" id="btn-tax" onclick="toggleTax()">
+                    <i class="ss ss-foil ss-grad ss-cmd"></i>
+                </button>
+                <button class="control-btn disabled" id="btn-rwb" onclick="toggleRWB()">
+                    <i class="ms ss-foil ss-grad ms-ci ms-ci-3 ms-ci-rwb"></i>
+                </button>
+                <button class="control-btn" id="btn-awake" onclick="toggleWakeLock()">
+                    <i class="ms ss-foil ss-grad ms-dfc-day"></i>
+                </button>
+                <button onclick="resetAll()" class="control-btn">
+                    <i class="ss ss-foil ss-grad ss-iko"></i> <span style="font-size: 1rem; margin-left: 0.2rem;">RESET</span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <div id="sticky-footer">
-        Issues? Report them on <a href="https://github.com/regularwave/kinnan-tracker" target="_blank">GitHub</a>
+    <div id="credits-modal" class="hidden">
+        <h2>Credits & Legal</h2>
+
+        <p>Art:
+            <br>
+            <i class="ms ss-foil ss-grad ms-artist-nib"></i> <em>Kinnan, Bonder Prodigy</em> illustration by Jason Rainville
+        </p>
+
+        <p>Fonts:<br>
+            <a href="https://github.com/andrewgioia/keyrune" target="_blank">Keyrune</a> and <a href="https://github.com/andrewgioia/Mana" target="_blank">Mana</a> fonts by <a href="https://andrewgioia.com/">Andrew Gioia</a> (SIL OFL 1.1)
+            <br>
+            Beleren font from Wizards of the Coast
+        </p>
+
+        <p style="font-size: 0.8rem; opacity: 0.8; margin-top: 1.5rem;">
+            Kinnan Tracker is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards of the Coast. Portions of the materials used are property of Wizards of the Coast; those portions &copy; Wizards of the Coast LLC.
+        </p>
+
+        <button class="close-btn" onclick="toggleCredits()">CLOSE</button>
     </div>
 
+    <div id="sticky-footer">
+        <span onclick="toggleCredits()"><i class="ms ss-foil ss-grad ms-artist-nib"></i> & <i class="ms ss-foil ss-grad ms-ability-adventure"></i></span> &nbsp;|&nbsp;Issues? Report them on <a href="https://github.com/regularwave/kinnan-tracker" target="_blank">GitHub</a>
+    </div>
+
+    <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const inputs = document.querySelectorAll('.quantity');
-            inputs.forEach(input => {
-                const savedValue = localStorage.getItem('kinnan_tracker_' + input.id);
-                if (savedValue !== null) {
-                    input.value = savedValue;
-                }
-            });
-        });
-
-        function updateValue(id, change) {
-            const input = document.getElementById(id);
-            let val = parseInt(input.value) || 0;
-            val += change;
-            saveValues(input, val);
-        }
-
-        function manualUpdate(inputElement) {
-            let val = parseInt(inputElement.value);
-            if (isNaN(val)) val = 0;
-            saveValues(inputElement, val);
-        }
-
-        function saveValues(input, val) {
-            if (val < 0) val = 0;
-            if (val > 99) val = 99;
-            input.value = val;
-            localStorage.setItem('kinnan_tracker_' + input.id, val);
-        }
-
-        function resetAll() {
-            const inputs = document.querySelectorAll('.quantity');
-            inputs.forEach(input => {
-                input.value = 0;
-                localStorage.removeItem('kinnan_tracker_' + input.id);
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Registration Failed: ', err));
             });
         }
     </script>

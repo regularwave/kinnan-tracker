@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kinnan-tracker-20260214T192500';
+const CACHE_NAME = 'kinnan-tracker-20260214T211700';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -8,9 +8,7 @@ const ASSETS_TO_CACHE = [
     './img/GU.svg',
     'https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css',
     'https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css',
-    './font/Beleren2016-Bold.woff',
-    './font/Beleren2016-Bold.ttf',
-    './font/Beleren2016-Bold.svg'
+    './font/Beleren2016-Bold.woff'
 ];
 
 self.addEventListener('install', (event) => {

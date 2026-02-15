@@ -1,10 +1,9 @@
 @font-face {
     font-family: "Beleren Bold";
-    src: url("./font/Beleren2016-Bold.woff") format("woff"),
-        url("./font/Beleren2016-Bold.ttf") format("truetype"),
-        url("./font/Beleren2016-Bold.svg#Beleren2016-Bold") format("svg");
+    src: url("./font/Beleren2016-Bold.woff") format("woff");
     font-style: normal;
     font-weight: bold;
+    font-display: swap;
     text-rendering: optimizeLegibility;
 }
 

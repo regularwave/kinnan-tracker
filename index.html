@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link rel="apple-touch-icon" href="img/GU.svg">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
 
@@ -24,7 +24,6 @@
 <body>
     <div id="container" class="floatcontainer">
         <div id="content" class="content">
-
             <div id="top-row" class="top-row hidden">
                 <div class="tile-wrapper hidden" id="tile-life">
                     <div class="manasymbol-container">
@@ -36,7 +35,6 @@
                         <button class="minus" onclick="updateValue('life', -1)">&minus;</button>
                     </div>
                 </div>
-
                 <div class="tile-wrapper hidden" id="tile-tax">
                     <div class="manasymbol-container">
                         <i class="ss ss-foil ss-grad ss-cmd ss-5x toprow-manasymbol-icon"></i>
@@ -48,9 +46,7 @@
                     </div>
                 </div>
             </div>
-
             <div class="tracker-grid">
-
                 <div class="tile-wrapper hidden" id="tile-w">
                     <div class="manasymbol-container">
                         <i class="ms ms-w ms-cost ms-fw manasymbol-icon"></i>
@@ -61,7 +57,6 @@
                         <button class="minus" onclick="updateValue('mana-w', -1)">&minus;</button>
                     </div>
                 </div>
-
                 <div class="tile-wrapper" id="tile-u">
                     <div class="manasymbol-container">
                         <i class="ms ms-u ms-cost manasymbol-icon"></i>
@@ -72,7 +67,6 @@
                         <button class="minus" onclick="updateValue('mana-u', -1)">&minus;</button>
                     </div>
                 </div>
-
                 <div class="tile-wrapper hidden" id="tile-b">
                     <div class="manasymbol-container">
                         <i class="ms ms-b ms-cost manasymbol-icon"></i>
@@ -83,7 +77,6 @@
                         <button class="minus" onclick="updateValue('mana-b', -1)">&minus;</button>
                     </div>
                 </div>
-
                 <div class="tile-wrapper hidden" id="tile-r">
                     <div class="manasymbol-container">
                         <i class="ms ms-r ms-cost ms-fw manasymbol-icon"></i>
@@ -94,7 +87,6 @@
                         <button class="minus" onclick="updateValue('mana-r', -1)">&minus;</button>
                     </div>
                 </div>
-
                 <div class="tile-wrapper" id="tile-g">
                     <div class="manasymbol-container">
                         <i class="ms ms-g ms-cost manasymbol-icon"></i>
@@ -105,7 +97,6 @@
                         <button class="minus" onclick="updateValue('mana-g', -1)">&minus;</button>
                     </div>
                 </div>
-
                 <div class="tile-wrapper" id="tile-c">
                     <div class="manasymbol-container">
                         <i class="ms ms-c ms-cost manasymbol-icon"></i>
@@ -117,7 +108,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="controls-row">
                 <button class="control-btn disabled" id="btn-life" onclick="toggleLife()">
                     <i class="ms ss-foil ss-grad ms-ability-lifelink"></i>
@@ -128,6 +118,9 @@
                 <button class="control-btn disabled" id="btn-rwb" onclick="toggleRWB()">
                     <i class="ms ss-foil ss-grad ms-ci ms-ci-3 ms-ci-rwb"></i>
                 </button>
+                <button class="control-btn" id="btn-cmd" onclick="toggleCmdModal()">
+                    <i class="ss ss-foil ss-grad ss-mic"></i>
+                </button>
                 <button class="control-btn" id="btn-awake" onclick="toggleWakeLock()">
                     <i class="ms ss-foil ss-grad ms-dfc-day"></i>
                 </button>
@@ -137,32 +130,132 @@
             </div>
         </div>
     </div>
-
     <div id="credits-modal" class="hidden">
         <h2>Credits & Legal</h2>
-
         <p>Art:
             <br>
             <i class="ms ss-foil ss-grad ms-artist-nib"></i> <em>Kinnan, Bonder Prodigy</em> illustration by Jason Rainville
         </p>
-
         <p>Fonts:<br>
             <a href="https://github.com/andrewgioia/keyrune" target="_blank">Keyrune</a> and <a href="https://github.com/andrewgioia/Mana" target="_blank">Mana</a> fonts by <a href="https://andrewgioia.com/">Andrew Gioia</a> (SIL OFL 1.1)
             <br>
             Beleren font from Wizards of the Coast
         </p>
-
         <p class="legal-text">
             Kinnan Tracker is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards of the Coast. Portions of the materials used are property of Wizards of the Coast; those portions &copy; Wizards of the Coast LLC.
         </p>
-
         <button class="close-btn" onclick="toggleCredits()">CLOSE</button>
     </div>
-
+    <div id="cmd-modal" class="hidden modal-overlay">
+        <div class="cmd-modal-content">
+            <div class="cmd-quarters">
+                <div class="cmd-quarter">
+                    <input type="text" id="name-p1" class="player-name" value="Player 1" placeholder="Name" oninput="savePlayerName(this)">
+                    <div class="cmd-counters-vertical">
+                        <div class="cmd-wrapper">
+                            <input type="text" class="cmd-name-input" id="name-cmd-p1-c1" value="Commander 1" oninput="saveCmdName(this)">
+                            <div class="cmd-counter-unit">
+                                <input class="quantity cmd-qty" id="cmd-p1-c1" value="0" type="number" oninput="manualUpdate(this)">
+                                <div class="spinner-btns">
+                                    <button class="plus" onclick="updateCmdValue('cmd-p1-c1', 1)">&plus;</button>
+                                    <button class="minus" onclick="updateCmdValue('cmd-p1-c1', -1)">&minus;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cmd-wrapper">
+                            <input type="text" class="cmd-name-input" id="name-cmd-p1-c2" value="Commander 2" oninput="saveCmdName(this)">
+                            <div class="cmd-counter-unit">
+                                <input class="quantity cmd-qty" id="cmd-p1-c2" value="0" type="number" oninput="manualUpdate(this)">
+                                <div class="spinner-btns">
+                                    <button class="plus" onclick="updateCmdValue('cmd-p1-c2', 1)">&plus;</button>
+                                    <button class="minus" onclick="updateCmdValue('cmd-p1-c2', -1)">&minus;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cmd-quarter">
+                    <input type="text" id="name-p2" class="player-name" value="Player 2" placeholder="Name" oninput="savePlayerName(this)">
+                    <div class="cmd-counters-vertical">
+                        <div class="cmd-wrapper">
+                            <input type="text" class="cmd-name-input" id="name-cmd-p2-c1" value="Commander 1" oninput="saveCmdName(this)">
+                            <div class="cmd-counter-unit">
+                                <input class="quantity cmd-qty" id="cmd-p2-c1" value="0" type="number" oninput="manualUpdate(this)">
+                                <div class="spinner-btns">
+                                    <button class="plus" onclick="updateCmdValue('cmd-p2-c1', 1)">&plus;</button>
+                                    <button class="minus" onclick="updateCmdValue('cmd-p2-c1', -1)">&minus;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cmd-wrapper">
+                            <input type="text" class="cmd-name-input" id="name-cmd-p2-c2" value="Commander 2" oninput="saveCmdName(this)">
+                            <div class="cmd-counter-unit">
+                                <input class="quantity cmd-qty" id="cmd-p2-c2" value="0" type="number" oninput="manualUpdate(this)">
+                                <div class="spinner-btns">
+                                    <button class="plus" onclick="updateCmdValue('cmd-p2-c2', 1)">&plus;</button>
+                                    <button class="minus" onclick="updateCmdValue('cmd-p2-c2', -1)">&minus;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cmd-quarter">
+                    <input type="text" id="name-p3" class="player-name" value="Player 3" placeholder="Name" oninput="savePlayerName(this)">
+                    <div class="cmd-counters-vertical">
+                        <div class="cmd-wrapper">
+                            <input type="text" class="cmd-name-input" id="name-cmd-p3-c1" value="Commander 1" oninput="saveCmdName(this)">
+                            <div class="cmd-counter-unit">
+                                <input class="quantity cmd-qty" id="cmd-p3-c1" value="0" type="number" oninput="manualUpdate(this)">
+                                <div class="spinner-btns">
+                                    <button class="plus" onclick="updateCmdValue('cmd-p3-c1', 1)">&plus;</button>
+                                    <button class="minus" onclick="updateCmdValue('cmd-p3-c1', -1)">&minus;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cmd-wrapper">
+                            <input type="text" class="cmd-name-input" id="name-cmd-p3-c2" value="Commander 2" oninput="saveCmdName(this)">
+                            <div class="cmd-counter-unit">
+                                <input class="quantity cmd-qty" id="cmd-p3-c2" value="0" type="number" oninput="manualUpdate(this)">
+                                <div class="spinner-btns">
+                                    <button class="plus" onclick="updateCmdValue('cmd-p3-c2', 1)">&plus;</button>
+                                    <button class="minus" onclick="updateCmdValue('cmd-p3-c2', -1)">&minus;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cmd-quarter">
+                    <input type="text" id="name-p4" class="player-name" value="Player 4" placeholder="Name" oninput="savePlayerName(this)">
+                    <div class="cmd-counters-vertical">
+                        <div class="cmd-wrapper">
+                            <input type="text" class="cmd-name-input" id="name-cmd-p4-c1" value="Commander 1" oninput="saveCmdName(this)">
+                            <div class="cmd-counter-unit">
+                                <input class="quantity cmd-qty" id="cmd-p4-c1" value="0" type="number" oninput="manualUpdate(this)">
+                                <div class="spinner-btns">
+                                    <button class="plus" onclick="updateCmdValue('cmd-p4-c1', 1)">&plus;</button>
+                                    <button class="minus" onclick="updateCmdValue('cmd-p4-c1', -1)">&minus;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cmd-wrapper">
+                            <input type="text" class="cmd-name-input" id="name-cmd-p4-c2" value="Commander 2" oninput="saveCmdName(this)">
+                            <div class="cmd-counter-unit">
+                                <input class="quantity cmd-qty" id="cmd-p4-c2" value="0" type="number" oninput="manualUpdate(this)">
+                                <div class="spinner-btns">
+                                    <button class="plus" onclick="updateCmdValue('cmd-p4-c2', 1)">&plus;</button>
+                                    <button class="minus" onclick="updateCmdValue('cmd-p4-c2', -1)">&minus;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="close-btn" onclick="toggleCmdModal()">CLOSE</button>
+        </div>
+    </div>
     <div id="sticky-footer">
         <span onclick="toggleCredits()"><i class="ms ss-foil ss-grad ms-artist-nib"></i> & <i class="ms ss-foil ss-grad ms-ability-adventure"></i></span> &nbsp;|&nbsp;Issues? Report them on <a href="https://github.com/regularwave/kinnan-tracker" target="_blank">GitHub</a>
     </div>
-
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {

@@ -26,6 +26,44 @@ document.addEventListener('DOMContentLoaded', () => {
             requestWakeLock();
         }
     });
+
+    const names = ['name-p1', 'name-p2', 'name-p3', 'name-p4'];
+    names.forEach(id => {
+        const savedName = localStorage.getItem(id);
+        if (savedName) {
+            document.getElementById(id).value = savedName;
+        }
+    });
+
+    for (let p = 1; p <= 4; p++) {
+        for (let c = 1; c <= 2; c++) {
+            const id = `cmd-p${p}-c${c}`;
+            const element = document.getElementById(id);
+            if (element) {
+                const savedVal = localStorage.getItem(id);
+                if (savedVal) element.value = savedVal;
+            }
+        }
+    }
+
+    const cmdNames = document.querySelectorAll('.cmd-name-input');
+    cmdNames.forEach(input => {
+        const savedName = localStorage.getItem('kinnan_tracker_' + input.id);
+        if (savedName) {
+            input.value = savedName;
+        }
+    });
+
+    const allNameInputs = document.querySelectorAll('.player-name, .cmd-name-input');
+
+    allNameInputs.forEach(input => {
+        input.addEventListener('focus', function () {
+            this.select();
+        });
+        input.addEventListener('click', function () {
+            this.select();
+        });
+    });
 });
 
 function toggleCredits() {
@@ -54,12 +92,29 @@ function saveValues(input, val) {
 }
 
 function resetAll() {
-    const inputs = document.querySelectorAll('.quantity');
-    inputs.forEach(input => {
-        let defaultVal = (input.id === 'life') ? 40 : 0;
-        input.value = defaultVal;
-        localStorage.setItem('kinnan_tracker_' + input.id, defaultVal);
+    const lifeEl = document.getElementById('life');
+    if (lifeEl) lifeEl.value = 40;
+    localStorage.setItem('kinnan_tracker_life', 40);
+
+    const standardInputs = document.querySelectorAll('.tracker-grid .quantity');
+    standardInputs.forEach(input => {
+        input.value = 0;
+        localStorage.setItem('kinnan_tracker_' + input.id, 0);
     });
+
+    for (let p = 1; p <= 4; p++) {
+        for (let c = 1; c <= 2; c++) {
+            const id = `cmd-p${p}-c${c}`;
+            const storageKey = `kinnan_tracker_${id}`;
+            localStorage.setItem(storageKey, 0);
+            const el = document.getElementById(id);
+            if (el) {
+                el.value = 0;
+            }
+        }
+    }
+
+    if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
 }
 
 function loadSettings() {
@@ -143,6 +198,39 @@ function toggleRWB() {
     settings.rwb = !settings.rwb;
     applySettings();
     saveSettings();
+}
+
+function toggleCmdModal() {
+    const modal = document.getElementById('cmd-modal');
+    modal.classList.toggle('hidden');
+    settings.cmdModalOpen = !modal.classList.contains('hidden');
+}
+
+function updateCmdValue(id, change) {
+    const cmdInput = document.getElementById(id);
+    let cmdVal = parseInt(cmdInput.value) || 0;
+
+    if (cmdVal + change < 0) {
+        return;
+    }
+
+    cmdVal += change;
+    saveValues(cmdInput, cmdVal);
+
+    const lifeInput = document.getElementById('life');
+    let lifeVal = parseInt(lifeInput.value) || 0;
+
+    lifeVal -= change;
+
+    saveValues(lifeInput, lifeVal);
+}
+
+function savePlayerName(input) {
+    localStorage.setItem('kinnan_' + input.id, input.value);
+}
+
+function saveCmdName(input) {
+    localStorage.setItem('kinnan_tracker_' + input.id, input.value);
 }
 
 async function toggleWakeLock() {

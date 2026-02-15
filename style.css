@@ -117,14 +117,8 @@ body {
     z-index: 5;
 }
 
-.manasymbol-img {
-    width: 3.5rem;
-    height: 3.5rem;
-    object-fit: contain;
-}
-
 .manasymbol-icon {
-    font-size: 4rem;
+    font-size: 3.5rem;
     width: 1em;
     height: 1em;
     min-width: 1em !important;
@@ -132,7 +126,6 @@ body {
     align-items: center;
     justify-content: center;
     line-height: 1;
-    translate: 0 -3px;
 }
 
 .manasymbol-icon::before {

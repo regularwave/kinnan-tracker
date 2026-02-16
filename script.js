@@ -97,27 +97,15 @@ function saveValues(input, val) {
 }
 
 function resetAll() {
-    const lifeEl = document.getElementById('life');
-    if (lifeEl) lifeEl.value = 40;
-    localStorage.setItem('kinnan_tracker_life', 40);
+    const allInputs = document.querySelectorAll('.quantity');
 
-    const standardInputs = document.querySelectorAll('.tracker-grid .quantity');
-    standardInputs.forEach(input => {
-        input.value = 0;
-        localStorage.setItem('kinnan_tracker_' + input.id, 0);
+    allInputs.forEach(input => {
+        const defaultVal = (input.id === 'life') ? 40 : 0;
+
+        input.value = defaultVal;
+
+        localStorage.setItem('kinnan_tracker_' + input.id, defaultVal);
     });
-
-    for (let p = 1; p <= 4; p++) {
-        for (let c = 1; c <= 2; c++) {
-            const id = `cmd-p${p}-c${c}`;
-            const storageKey = `kinnan_tracker_${id}`;
-            localStorage.setItem(storageKey, 0);
-            const el = document.getElementById(id);
-            if (el) {
-                el.value = 0;
-            }
-        }
-    }
 
     if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
 }

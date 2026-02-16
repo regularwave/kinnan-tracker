@@ -31,6 +31,10 @@ Check the Help link at the bottom of the [Kinnan Tracker](https://regularwave.gi
 
 This project is licensed under the **GNU General Public License v3.0** (GPLv3). See the [LICENSE](LICENSE) file for the full text.
 
+## Acknowledgments
+
+* CSS optimization help from [CSSO](https://github.com/css/csso)
+
 ## Legal & Third-Party Assets
 
 This application is **unofficial Fan Content** permitted under the [Wizards of the Coast Fan Content Policy](https://company.wizards.com/en/legal/fancontentpolicy). It is not approved or endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.

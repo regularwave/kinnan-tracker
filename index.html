@@ -146,6 +146,32 @@
         </p>
         <button class="close-btn" onclick="toggleCredits()">CLOSE</button>
     </div>
+    <div id="help-modal" class="hidden">
+        <h2>Help</h2>
+        <p>
+            <i class="ms ss-foil ss-grad ms-ability-lifelink ms-2x"></i> - toggle life counter
+        </p>
+        <p>
+            <i class="ss ss-foil ss-grad ss-cmd ss-2x"></i> - toggle commander tax counter
+        </p>
+        <p>
+            <i class="ms ss-foil ss-grad ms-ci ms-ci-3 ms-ci-rwb ms-2x"></i> - toggle <i class="ms ms-w ms-cost"></i><i class="ms ms-b ms-cost"></i><i class="ms ms-r ms-cost"></i> counters
+            <br>
+            <span class="help-subtext">(<i class="ms ms-u ms-cost"></i><i class="ms ms-g ms-cost"></i><i class="ms ms-c ms-cost"></i> counters always visible)</span>
+        </p>
+        <p>
+            <i class="ss ss-foil ss-grad ss-mic ss-2x"></i> - toggle commander damage page
+            <br>
+            <span class="help-subtext">Player and commander labels are editable!</span>
+        </p>
+        <p>
+            <i class="ms ss-foil ss-grad ms-dfc-day ms-2x"></i>/<i class="ms ms-dfc-night ms-2x"></i> - toggle screen wake lock
+        </p>
+        <p>
+            <i class="ss ss-foil ss-grad ss-iko ss-2x"></i> - reset all counters
+        </p>
+        <button class="close-btn" onclick="toggleHelp()">CLOSE</button>
+    </div>
     <div id="cmd-modal" class="hidden modal-overlay">
         <div class="cmd-modal-content">
             <div class="cmd-quarters">
@@ -254,7 +280,7 @@
         </div>
     </div>
     <div id="sticky-footer">
-        <span onclick="toggleCredits()"><i class="ms ss-foil ss-grad ms-artist-nib"></i> & <i class="ms ss-foil ss-grad ms-ability-adventure"></i></span> &nbsp;|&nbsp;Issues? Report them on <a href="https://github.com/regularwave/kinnan-tracker" target="_blank">GitHub</a>
+        <span onclick="toggleCredits()"><i class="ms ss-foil ss-grad ms-artist-nib"></i> & <i class="ms ss-foil ss-grad ms-ability-adventure"></i></span>&nbsp;|&nbsp;<span onclick="toggleHelp()"><i class="ss ss-foil ss-grad ss-mb2"></i> Help</span>&nbsp;|&nbsp;Issues? Report them on <a href="https://github.com/regularwave/kinnan-tracker" target="_blank">GitHub</a>
     </div>
     <script src="script.js"></script>
     <script>

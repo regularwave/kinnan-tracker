@@ -278,7 +278,8 @@ input[type=number]::-webkit-outer-spin-button {
     text-decoration: underline;
 }
 
-#credits-modal {
+#credits-modal,
+#help-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -296,7 +297,8 @@ input[type=number]::-webkit-outer-spin-button {
     overflow-y: auto;
 }
 
-#credits-modal h2 {
+#credits-modal h2,
+#help-modal h2 {
     margin-top: 0;
     color: #fff;
     border-bottom: 1px solid #555;
@@ -304,18 +306,21 @@ input[type=number]::-webkit-outer-spin-button {
     margin-bottom: 1.5rem;
 }
 
-#credits-modal p {
+#credits-modal p,
+#help-modal p {
     margin-bottom: 1rem;
     font-size: 1rem;
     line-height: 1.4;
     max-width: 600px;
 }
 
-#credits-modal.hidden {
+#credits-modal.hidden,
+#help-modal.hidden {
     display: none !important;
 }
 
-#credits-modal a {
+#credits-modal a,
+#help-modal a {
     color: #4da6ff;
     text-align: center;
 }
@@ -468,6 +473,14 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 4px;
 }
 
+.help-subtext {
+    display: block;
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-top: 0.2rem;
+    font-style: italic;
+}
+
 @media (min-width: 768px),
 (orientation: landscape) and (min-width: 560px) {
 
@@ -550,7 +563,8 @@ input[type=number]::-webkit-outer-spin-button {
         display: none;
     }
 
-    #credits-modal:not(.hidden) {
+    #credits-modal:not(.hidden),
+    #help-modal:not(.hidden) {
         display: grid !important;
         grid-template-columns: 1fr 1fr;
         gap: 0.5rem 2rem;
@@ -564,14 +578,17 @@ input[type=number]::-webkit-outer-spin-button {
 
     #credits-modal h2,
     #credits-modal .legal-text,
-    #credits-modal #app-version,
-    #credits-modal .close-btn {
+    #credits-modal .close-btn,
+    #help-modal h2,
+    #help-modal .legal-text,
+    #help-modal .close-btn {
         grid-column: 1 / span 2 !important;
         width: 100%;
         text-align: center;
     }
 
-    #credits-modal .legal-text {
+    #credits-modal .legal-text,
+    #help-modal .legal-text {
         grid-column: 1 / span 2 !important;
         width: 100% !important;
         max-width: none !important;

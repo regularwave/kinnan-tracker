@@ -71,6 +71,11 @@ function toggleCredits() {
     modal.classList.toggle('hidden');
 }
 
+function toggleHelp() {
+    const modal = document.getElementById('help-modal');
+    modal.classList.toggle('hidden');
+}
+
 function updateValue(id, change) {
     const input = document.getElementById(id);
     let val = parseInt(input.value) || 0;

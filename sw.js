@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kinnan-tracker-20260216T001400';
+const CACHE_NAME = 'kinnan-tracker-20260218T170000';
 
 const LOCAL_ASSETS = [
     './',

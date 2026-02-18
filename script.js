@@ -1,6 +1,6 @@
 let wakeLock = null;
 let settings = {
-    rwb: false,
+    pips: false,
     life: false,
     tax: false,
     awake: true
@@ -150,17 +150,17 @@ function applySettings() {
         btnTax.classList.add('disabled');
     }
 
-    const tilesRWB = [document.getElementById('tile-r'), document.getElementById('tile-w'), document.getElementById('tile-b')];
-    const btnRWB = document.getElementById('btn-rwb');
+    const tilesPips = [document.getElementById('tile-r'), document.getElementById('tile-w'), document.getElementById('tile-b')];
+    const btnPips = document.getElementById('btn-pips');
     const tileColorless = document.getElementById('tile-c');
 
-    if (settings.rwb) {
-        tilesRWB.forEach(el => el.classList.remove('hidden'));
-        btnRWB.classList.remove('disabled');
+    if (settings.pips) {
+        tilesPips.forEach(el => el.classList.remove('hidden'));
+        btnPips.classList.remove('disabled');
         tileColorless.classList.remove('span-full');
     } else {
-        tilesRWB.forEach(el => el.classList.add('hidden'));
-        btnRWB.classList.add('disabled');
+        tilesPips.forEach(el => el.classList.add('hidden'));
+        btnPips.classList.add('disabled');
         tileColorless.classList.add('span-full');
     }
 
@@ -187,8 +187,8 @@ function toggleTax() {
     saveSettings();
 }
 
-function toggleRWB() {
-    settings.rwb = !settings.rwb;
+function togglePips() {
+    settings.pips = !settings.pips;
     applySettings();
     saveSettings();
 }

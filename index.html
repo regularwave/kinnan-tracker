@@ -115,7 +115,7 @@
                 <button class="control-btn disabled" id="btn-tax" onclick="toggleTax()">
                     <i class="ss ss-foil ss-grad ss-cmd"></i>
                 </button>
-                <button class="control-btn disabled" id="btn-pips" onclick="togglePips()">
+                <button class="control-btn" id="btn-pips" oncontextmenu="return flase;">
                     <i class="ms ss-foil ss-grad ms-watermark-colorpie"></i>
                 </button>
                 <button class="control-btn" id="btn-cmd" onclick="toggleCmdModal()">
@@ -146,31 +146,33 @@
         </p>
         <button class="close-btn" onclick="toggleCredits()">CLOSE</button>
     </div>
-    <div id="help-modal" class="hidden">
-        <h2>Help</h2>
-        <p>
-            <i class="ms ss-foil ss-grad ms-ability-lifelink ms-2x"></i> - toggle life counter
-        </p>
-        <p>
-            <i class="ss ss-foil ss-grad ss-cmd ss-2x"></i> - toggle commander tax counter
-        </p>
-        <p>
-            <i class="ms ss-foil ss-grad ms-ci ms-ci-3 ms-ci-rwb ms-2x"></i> - toggle <i class="ms ms-w ms-cost"></i><i class="ms ms-b ms-cost"></i><i class="ms ms-r ms-cost"></i> counters
-            <br>
-            <span class="help-subtext">(<i class="ms ms-u ms-cost"></i><i class="ms ms-g ms-cost"></i><i class="ms ms-c ms-cost"></i> counters always visible)</span>
-        </p>
-        <p>
-            <i class="ss ss-foil ss-grad ss-mic ss-2x"></i> - toggle commander damage page
-            <br>
-            <span class="help-subtext">Player and commander labels are editable!</span>
-        </p>
-        <p>
-            <i class="ms ss-foil ss-grad ms-dfc-day ms-2x"></i>/<i class="ms ms-dfc-night ms-2x"></i> - toggle screen wake lock
-        </p>
-        <p>
-            <i class="ss ss-foil ss-grad ss-iko ss-2x"></i> - reset all counters
-        </p>
-        <button class="close-btn" onclick="toggleHelp()">CLOSE</button>
+    <div id="pips-modal" class="hidden">
+        <div class="cmd-modal-content">
+            <h2>Mana Tile Visibility</h2>
+            <p class="help-subtext">Choose which mana tiles are always shown and which ones are toggled by the &ensp;<i class="ms ss-foil ss-grad ms-watermark-colorpie"></i>&ensp; button.</p>
+
+            <div class="pips-grid">
+                <input type="checkbox" id="chk-white" class="pip-chk" value="white">
+                <label for="chk-white" class="pip-label"><i class="ms ms-w ms-cost ms-2x"></i></label>
+
+                <input type="checkbox" id="chk-blue" class="pip-chk" value="blue">
+                <label for="chk-blue" class="pip-label"><i class="ms ms-u ms-cost ms-2x"></i></label>
+
+                <input type="checkbox" id="chk-black" class="pip-chk" value="black">
+                <label for="chk-black" class="pip-label"><i class="ms ms-b ms-cost ms-2x"></i></label>
+
+                <input type="checkbox" id="chk-red" class="pip-chk" value="red">
+                <label for="chk-red" class="pip-label"><i class="ms ms-r ms-cost ms-2x"></i></label>
+
+                <input type="checkbox" id="chk-green" class="pip-chk" value="green">
+                <label for="chk-green" class="pip-label"><i class="ms ms-g ms-cost ms-2x"></i></label>
+
+                <input type="checkbox" id="chk-colorless" class="pip-chk" value="colorless">
+                <label for="chk-colorless" class="pip-label"><i class="ms ms-c ms-cost ms-2x"></i></label>
+            </div>
+
+            <button class="close-btn" onclick="savePipsConfig()">SAVE & CLOSE</button>
+        </div>
     </div>
     <div id="cmd-modal" class="hidden modal-overlay">
         <div class="cmd-modal-content">
@@ -278,6 +280,30 @@
             </div>
             <button class="close-btn" onclick="toggleCmdModal()">CLOSE</button>
         </div>
+    </div>
+    <div id="help-modal" class="hidden">
+        <h2>Help</h2>
+        <p>
+            <i class="ms ss-foil ss-grad ms-ability-lifelink ms-2x"></i> - toggle life counter
+        </p>
+        <p>
+            <i class="ss ss-foil ss-grad ss-cmd ss-2x"></i> - toggle commander tax counter
+        </p>
+        <p>
+            <i class="ms ss-foil ss-grad ms-watermark-colorpie ms-2x"></i> - long press to choose which mana tiles are always visible and which toggle on and off using the &ensp;<i class="ms ss-foil ss-grad ms-watermark-colorpie"></i>&ensp; button
+        </p>
+        <p>
+            <i class="ss ss-foil ss-grad ss-mic ss-2x"></i> - toggle commander damage page
+            <br>
+            <span class="help-subtext">Player and commander labels are editable!</span>
+        </p>
+        <p>
+            <i class="ms ss-foil ss-grad ms-dfc-day ms-2x"></i>/<i class="ms ms-dfc-night ms-2x"></i> - toggle screen wake lock
+        </p>
+        <p>
+            <i class="ss ss-foil ss-grad ss-iko ss-2x"></i> - reset all counters
+        </p>
+        <button class="close-btn" onclick="toggleHelp()">CLOSE</button>
     </div>
     <div id="sticky-footer">
         <span class="footer-link" onclick="toggleCredits()">

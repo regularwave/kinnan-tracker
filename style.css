@@ -104,6 +104,7 @@ body {
 
 #credits-modal.hidden,
 #help-modal.hidden,
+#pips-modal.hidden,
 .hidden {
     display: none !important
 }
@@ -259,6 +260,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 #credits-modal,
 #help-modal,
+#pips-modal,
 #sticky-footer {
     width: 100%;
     display: flex;
@@ -299,7 +301,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #credits-modal,
-#help-modal {
+#help-modal,
+#pips-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -314,7 +317,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #credits-modal h2,
-#help-modal h2 {
+#help-modal h2,
+#pips-modal h2 {
     margin-top: 0;
     color: #fff;
     border-bottom: 1px solid #555;
@@ -323,7 +327,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #credits-modal p,
-#help-modal p {
+#help-modal p,
+#pips-modal p {
     margin-bottom: 1rem;
     font-size: 1rem;
     line-height: 1.4;
@@ -331,7 +336,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #credits-modal a,
-#help-modal a {
+#help-modal a,
+#pips-modal a {
     color: #4da6ff;
     text-align: center
 }
@@ -492,6 +498,81 @@ input[type=number]::-webkit-outer-spin-button {
     font-style: italic
 }
 
+.pips-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 1rem auto;
+    max-height: 60vh; 
+    overflow-y: auto;
+}
+
+.pip-chk {
+    display: none;
+}
+
+.pip-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; 
+    align-items: center;
+    padding: 0.5rem 1rem;
+    gap: 1rem;
+    border: 1px solid #444;
+    border-radius: 0.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+    height: 100%; 
+    min-height: 4.5rem; 
+}
+
+.pip-label i {
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+}
+
+.pip-label::after {
+    white-space: pre; 
+    text-align: left;
+    font-size: 0.85rem;
+    line-height: 1.1;
+    color: #fff;
+}
+
+.pip-label {
+    border-color: #444;
+}
+
+.pip-label i {
+    opacity: 0.2; 
+}
+
+.pip-label::after {
+    content: "always\ashown"; 
+    font-style: normal;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.pip-chk:checked + .pip-label {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--text-white);
+}
+
+.pip-chk:checked + .pip-label i {
+    opacity: 1;
+}
+
+.pip-chk:checked + .pip-label::after {
+    content: "pip\a button\ahides";
+    font-style: italic;
+    font-weight: bold;
+    opacity: 1;
+}
+
 @media (min-width:768px),
 (orientation:landscape) and (min-width:560px) {
     body {
@@ -574,7 +655,8 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     #credits-modal:not(.hidden),
-    #help-modal:not(.hidden) {
+    #help-modal:not(.hidden),
+    #pips-modal:not(.hidden) {
         display: grid !important;
         grid-template-columns: 1fr 1fr;
         gap: .5rem 2rem;
@@ -589,14 +671,17 @@ input[type=number]::-webkit-outer-spin-button {
     #credits-modal .close-btn,
     #credits-modal h2,
     #help-modal .close-btn,
-    #help-modal h2 {
+    #help-modal h2,
+    #pips-modal .close-btn,
+    #pips-modal h2 {
         grid-column: 1/span 2 !important;
         width: 100%;
         text-align: center
     }
 
     #credits-modal .legal-text,
-    #help-modal .legal-text {
+    #help-modal .legal-text,
+    #pips-modal .legal-text {
         grid-column: 1/span 2 !important;
         width: 100% !important;
         max-width: none !important;

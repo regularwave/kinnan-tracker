@@ -1,10 +1,12 @@
 let wakeLock = null;
 let settings = {
-    pips: false,
     life: false,
     tax: false,
     awake: true
 };
+
+let pipsOpen = false;
+let pipsMask = ['white', 'black', 'red'];
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputs = document.querySelectorAll('.quantity');
@@ -16,6 +18,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     loadSettings();
+
+    const pipsBtn = document.getElementById('btn-pips');
+    let pressTimer;
+
+    pipsBtn.addEventListener('pointerdown', (e) => {
+        pressTimer = setTimeout(() => {
+            openPipsModal();
+            pressTimer = null;
+            if (navigator.vibrate) navigator.vibrate(50);
+        }, 600);
+    });
+
+    pipsBtn.addEventListener('pointerup', (e) => {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            togglePips();
+        }
+    });
+
+    pipsBtn.addEventListener('pointerleave', () => {
+        if (pressTimer) clearTimeout(pressTimer);
+    });
 
     if (settings.awake) {
         requestWakeLock();
@@ -35,6 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const cmdNames = document.querySelectorAll('.cmd-name-input');
+    cmdNames.forEach(input => {
+        const savedName = localStorage.getItem('kinnan_tracker_' + input.id);
+        if (savedName) input.value = savedName;
+    });
+
     for (let p = 1; p <= 4; p++) {
         for (let c = 1; c <= 2; c++) {
             const id = `cmd-p${p}-c${c}`;
@@ -46,14 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const cmdNames = document.querySelectorAll('.cmd-name-input');
-    cmdNames.forEach(input => {
-        const savedName = localStorage.getItem('kinnan_tracker_' + input.id);
-        if (savedName) {
-            input.value = savedName;
-        }
-    });
-
     const allNameInputs = document.querySelectorAll('.player-name, .cmd-name-input');
 
     allNameInputs.forEach(input => {
@@ -63,17 +85,24 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('click', function () {
             this.select();
         });
+        input.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
     });
 });
 
 function toggleCredits() {
-    const modal = document.getElementById('credits-modal');
-    modal.classList.toggle('hidden');
+    document.getElementById('credits-modal').classList.toggle('hidden');
 }
 
 function toggleHelp() {
-    const modal = document.getElementById('help-modal');
-    modal.classList.toggle('hidden');
+    document.getElementById('help-modal').classList.toggle('hidden');
+}
+
+function toggleCmdModal() {
+    document.getElementById('cmd-modal').classList.toggle('hidden');
 }
 
 function updateValue(id, change) {
@@ -96,18 +125,37 @@ function saveValues(input, val) {
     localStorage.setItem('kinnan_tracker_' + input.id, val);
 }
 
+function updateCmdValue(id, change) {
+    const cmdInput = document.getElementById(id);
+    let cmdVal = parseInt(cmdInput.value) || 0;
+
+    if (cmdVal + change < 0) return;
+
+    cmdVal += change;
+    saveValues(cmdInput, cmdVal);
+
+    const lifeInput = document.getElementById('life');
+    let lifeVal = parseInt(lifeInput.value) || 0;
+    lifeVal -= change;
+    saveValues(lifeInput, lifeVal);
+}
+
 function resetAll() {
     const allInputs = document.querySelectorAll('.quantity');
-
     allInputs.forEach(input => {
         const defaultVal = (input.id === 'life') ? 40 : 0;
-
         input.value = defaultVal;
-
         localStorage.setItem('kinnan_tracker_' + input.id, defaultVal);
     });
-
     if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
+}
+
+function savePlayerName(input) {
+    localStorage.setItem(input.id, input.value);
+}
+
+function saveCmdName(input) {
+    localStorage.setItem('kinnan_tracker_' + input.id, input.value);
 }
 
 function loadSettings() {
@@ -115,23 +163,45 @@ function loadSettings() {
     if (savedSettings) {
         settings = JSON.parse(savedSettings);
     }
+
+    const savedPips = localStorage.getItem('kinnan_tracker_pipsOpen');
+    if (savedPips !== null) {
+        pipsOpen = (savedPips === 'true');
+    }
+
+    const savedMask = localStorage.getItem('kinnan_tracker_pipsMask');
+    if (savedMask) {
+        try {
+            pipsMask = JSON.parse(savedMask);
+        } catch (e) {
+            console.error('Error parsing pips mask', e);
+            pipsMask = ['white', 'black', 'red'];
+        }
+    }
+
     applySettings();
+    updateManaGrid();
 }
 
 function saveSettings() {
     localStorage.setItem('kinnan_settings', JSON.stringify(settings));
+    localStorage.setItem('kinnan_tracker_pipsOpen', pipsOpen);
+    localStorage.setItem('kinnan_tracker_pipsMask', JSON.stringify(pipsMask));
 }
 
 function applySettings() {
     const topRow = document.getElementById('top-row');
+    const tileLife = document.getElementById('tile-life');
+    const btnLife = document.getElementById('btn-life');
+    const tileTax = document.getElementById('tile-tax');
+    const btnTax = document.getElementById('btn-tax');
+
     if (!settings.life && !settings.tax) {
         topRow.classList.add('hidden');
     } else {
         topRow.classList.remove('hidden');
     }
 
-    const tileLife = document.getElementById('tile-life');
-    const btnLife = document.getElementById('btn-life');
     if (settings.life) {
         tileLife.classList.remove('hidden');
         btnLife.classList.remove('disabled');
@@ -140,28 +210,12 @@ function applySettings() {
         btnLife.classList.add('disabled');
     }
 
-    const tileTax = document.getElementById('tile-tax');
-    const btnTax = document.getElementById('btn-tax');
     if (settings.tax) {
         tileTax.classList.remove('hidden');
         btnTax.classList.remove('disabled');
     } else {
         tileTax.classList.add('hidden');
         btnTax.classList.add('disabled');
-    }
-
-    const tilesPips = [document.getElementById('tile-r'), document.getElementById('tile-w'), document.getElementById('tile-b')];
-    const btnPips = document.getElementById('btn-pips');
-    const tileColorless = document.getElementById('tile-c');
-
-    if (settings.pips) {
-        tilesPips.forEach(el => el.classList.remove('hidden'));
-        btnPips.classList.remove('disabled');
-        tileColorless.classList.remove('span-full');
-    } else {
-        tilesPips.forEach(el => el.classList.add('hidden'));
-        btnPips.classList.add('disabled');
-        tileColorless.classList.add('span-full');
     }
 
     const btnAwake = document.getElementById('btn-awake');
@@ -188,47 +242,84 @@ function toggleTax() {
 }
 
 function togglePips() {
-    settings.pips = !settings.pips;
-    applySettings();
+    pipsOpen = !pipsOpen;
+    updateManaGrid();
     saveSettings();
 }
 
-function toggleCmdModal() {
-    const modal = document.getElementById('cmd-modal');
-    modal.classList.toggle('hidden');
-    settings.cmdModalOpen = !modal.classList.contains('hidden');
-}
+function updateManaGrid() {
+    const colorMap = {
+        'white': 'tile-w',
+        'blue': 'tile-u',
+        'black': 'tile-b',
+        'red': 'tile-r',
+        'green': 'tile-g',
+        'colorless': 'tile-c'
+    };
 
-function updateCmdValue(id, change) {
-    const cmdInput = document.getElementById(id);
-    let cmdVal = parseInt(cmdInput.value) || 0;
+    let visibleTiles = [];
 
-    if (cmdVal + change < 0) {
-        return;
+    Object.keys(colorMap).forEach(color => {
+        const wrapperId = colorMap[color];
+        const wrapper = document.getElementById(wrapperId);
+        if (!wrapper) return;
+
+        wrapper.classList.remove('span-full');
+
+        const isManaged = pipsMask.includes(color);
+        const shouldHide = isManaged && !pipsOpen;
+
+        if (shouldHide) {
+            wrapper.classList.add('hidden');
+        } else {
+            wrapper.classList.remove('hidden');
+            visibleTiles.push(wrapper);
+        }
+    });
+
+    if (visibleTiles.length % 2 !== 0) {
+        const lastTile = visibleTiles[visibleTiles.length - 1];
+        lastTile.classList.add('span-full');
     }
 
-    cmdVal += change;
-    saveValues(cmdInput, cmdVal);
-
-    const lifeInput = document.getElementById('life');
-    let lifeVal = parseInt(lifeInput.value) || 0;
-
-    lifeVal -= change;
-
-    saveValues(lifeInput, lifeVal);
+    const btn = document.getElementById('btn-pips');
+    if (pipsOpen) {
+        btn.classList.remove('disabled');
+        btn.style.opacity = '1';
+    } else {
+        btn.style.opacity = '0.5';
+    }
 }
 
-function savePlayerName(input) {
-    localStorage.setItem('kinnan_' + input.id, input.value);
+function openPipsModal() {
+    const modal = document.getElementById('pips-modal');
+    modal.classList.remove('hidden');
+
+    const checkboxes = document.querySelectorAll('.pip-chk');
+    checkboxes.forEach(chk => {
+        chk.checked = pipsMask.includes(chk.value);
+    });
 }
 
-function saveCmdName(input) {
-    localStorage.setItem('kinnan_tracker_' + input.id, input.value);
+function savePipsConfig() {
+    const modal = document.getElementById('pips-modal');
+    const checkboxes = document.querySelectorAll('.pip-chk');
+
+    pipsMask = [];
+    checkboxes.forEach(chk => {
+        if (chk.checked) {
+            pipsMask.push(chk.value);
+        }
+    });
+
+    modal.classList.add('hidden');
+
+    updateManaGrid();
+    saveSettings();
 }
 
 async function toggleWakeLock() {
     settings.awake = !settings.awake;
-
     if (settings.awake) {
         await requestWakeLock();
     } else {
@@ -245,8 +336,7 @@ async function requestWakeLock() {
     try {
         if ('wakeLock' in navigator) {
             wakeLock = await navigator.wakeLock.request('screen');
-            wakeLock.addEventListener('release', () => {
-            });
+            wakeLock.addEventListener('release', () => { });
         }
     } catch (err) {
         console.error(`${err.name}, ${err.message}`);

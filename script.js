@@ -1,9 +1,36 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, onDisconnect, remove, get, child } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app-check.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCDGTGx59Z544DL68GYp0oyFVH5HBoGb9k",
+    authDomain: "pod-seat-sync.firebaseapp.com",
+    databaseURL: "https://pod-seat-sync-default-rtdb.firebaseio.com",
+    projectId: "pod-seat-sync",
+    storageBucket: "pod-seat-sync.firebasestorage.app",
+    messagingSenderId: "642393168612",
+    appId: "1:642393168612:web:a71f366f02dc7bf7842af1"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider('6LeGOHAsAAAAAMnZ24eMR7WqAJ2ZIXzFZE5bYSUx'),
+    isTokenAutoRefreshEnabled: true
+});
+
+const db = getDatabase(app);
+
 let wakeLock = null;
 let settings = {
     life: false,
     tax: false,
     awake: true
 };
+
+let currentRoomId = null;
+let myPlayerId = 'player_' + Math.random().toString(36).substr(2, 9);
+let html5QrcodeScanner = null;
 
 let pipsOpen = false;
 let pipsMask = ['white', 'black', 'red'];
@@ -91,6 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         });
     });
+
+    const savedName = localStorage.getItem('name-p1');
+    if (savedName) document.getElementById('conn-player-name').value = savedName;
 });
 
 function toggleCredits() {
@@ -123,6 +153,10 @@ function saveValues(input, val) {
     if (val > 99) val = 99;
     input.value = val;
     localStorage.setItem('kinnan_tracker_' + input.id, val);
+
+    if (currentRoomId && input.id === 'life') {
+        syncLifeToRoom(val);
+    }
 }
 
 function updateCmdValue(id, change) {
@@ -318,6 +352,15 @@ function savePipsConfig() {
     saveSettings();
 }
 
+function toggleConnectModal() {
+    const modal = document.getElementById('connect-modal');
+    modal.classList.toggle('hidden');
+
+    if (modal.classList.contains('hidden') && html5QrcodeScanner) {
+        html5QrcodeScanner.clear();
+    }
+}
+
 async function toggleWakeLock() {
     settings.awake = !settings.awake;
     if (settings.awake) {
@@ -342,3 +385,163 @@ async function requestWakeLock() {
         console.error(`${err.name}, ${err.message}`);
     }
 }
+
+async function joinRoom() {
+    const nameInput = document.getElementById('conn-player-name');
+    const roomInput = document.getElementById('conn-room-code');
+    const status = document.getElementById('conn-status');
+
+    const playerName = nameInput.value || "Anonymous";
+    const roomId = roomInput.value.trim().toUpperCase();
+
+    if (!roomId) {
+        status.innerText = "Please enter a Room Name.";
+        return;
+    }
+
+    status.innerText = "Connecting...";
+
+    const roomRef = ref(db, 'rooms/' + roomId + '/players');
+    const snapshot = await get(roomRef);
+
+    if (snapshot.exists() && snapshot.size >= 4) {
+        if (!snapshot.hasChild(myPlayerId)) {
+            status.innerText = "Room is full (4/4 players).";
+            return;
+        }
+    }
+
+    currentRoomId = roomId;
+    localStorage.setItem('name-p1', playerName);
+
+    const myRef = ref(db, 'rooms/' + currentRoomId + '/players/' + myPlayerId);
+
+    const myData = {
+        name: playerName,
+        life: parseInt(document.getElementById('life').value) || 40,
+        lastSeen: Date.now()
+    };
+
+    set(myRef, myData);
+    onDisconnect(myRef).remove();
+
+    document.getElementById('connect-step-1').classList.add('hidden');
+    document.getElementById('connect-step-2').classList.remove('hidden');
+    document.getElementById('display-room-code').innerText = roomId;
+    document.getElementById('room-row').classList.remove('hidden');
+    document.getElementById('btn-connect').classList.add('hidden');
+
+    const qrContainer = document.getElementById('room-qr-display');
+    qrContainer.innerHTML = "";
+    new QRCode(qrContainer, {
+        text: roomId,
+        width: 128,
+        height: 128
+    });
+
+    listenToRoom();
+
+    status.innerText = "Connected!";
+}
+
+function listenToRoom() {
+    const playersRef = ref(db, 'rooms/' + currentRoomId + '/players');
+
+    onValue(playersRef, (snapshot) => {
+        const players = snapshot.val() || {};
+        renderRemotePlayers(players);
+    });
+}
+
+function renderRemotePlayers(players) {
+    const container = document.getElementById('remote-players-container');
+    container.innerHTML = '';
+
+    Object.keys(players).forEach(key => {
+        if (key === myPlayerId) return;
+
+        const p = players[key];
+
+        const tile = document.createElement('div');
+        tile.className = 'remote-tile';
+        tile.innerHTML = `
+            <div class="remote-name">${p.name}</div>
+            <div class="remote-life">${p.life}</div>
+        `;
+        container.appendChild(tile);
+    });
+}
+
+function syncLifeToRoom(newLife) {
+    if (!currentRoomId) return;
+    const myLifeRef = ref(db, 'rooms/' + currentRoomId + '/players/' + myPlayerId + '/life');
+    set(myLifeRef, newLife);
+}
+
+function startQRScan() {
+    const readerDiv = document.getElementById('qr-reader');
+    readerDiv.style.height = "250px";
+
+    html5QrcodeScanner = new Html5Qrcode("qr-reader");
+
+    html5QrcodeScanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (decodedText, decodedResult) => {
+            document.getElementById('conn-room-code').value = decodedText;
+            html5QrcodeScanner.stop().then(() => {
+                readerDiv.innerHTML = "";
+                readerDiv.style.height = "0";
+            });
+            joinRoom();
+        },
+        (errorMessage) => {
+        }
+    ).catch(err => {
+        document.getElementById('conn-status').innerText = "Camera error: " + err;
+    });
+}
+
+function showRoomQR() {
+    document.getElementById('connect-modal').classList.remove('hidden');
+    document.getElementById('connect-step-1').classList.add('hidden');
+    document.getElementById('connect-step-2').classList.remove('hidden');
+}
+
+function leaveRoom() {
+    if (confirm("Disconnect from room?")) {
+        const myRef = ref(db, 'rooms/' + currentRoomId + '/players/' + myPlayerId);
+        remove(myRef);
+
+        currentRoomId = null;
+
+        document.getElementById('room-row').classList.add('hidden');
+        document.getElementById('btn-connect').classList.remove('hidden');
+        document.getElementById('connect-step-1').classList.remove('hidden');
+        document.getElementById('connect-step-2').classList.add('hidden');
+
+        document.getElementById('remote-players-container').innerHTML = '';
+
+        document.getElementById('connect-modal').classList.add('hidden');
+    }
+}
+
+window.toggleCredits = toggleCredits;
+window.toggleHelp = toggleHelp;
+window.toggleCmdModal = toggleCmdModal;
+window.toggleConnectModal = toggleConnectModal;
+window.toggleLife = toggleLife;
+window.toggleTax = toggleTax;
+window.togglePips = togglePips;
+window.toggleWakeLock = toggleWakeLock;
+window.updateValue = updateValue;
+window.manualUpdate = manualUpdate;
+window.updateCmdValue = updateCmdValue;
+window.resetAll = resetAll;
+window.savePlayerName = savePlayerName;
+window.saveCmdName = saveCmdName;
+window.savePipsConfig = savePipsConfig;
+window.joinRoom = joinRoom;
+window.startQRScan = startQRScan;
+window.showRoomQR = showRoomQR;
+window.leaveRoom = leaveRoom;

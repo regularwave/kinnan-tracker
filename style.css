@@ -105,6 +105,7 @@ body {
 #credits-modal.hidden,
 #help-modal.hidden,
 #pips-modal.hidden,
+#connect-modal.hidden,
 .hidden {
     display: none !important
 }
@@ -261,6 +262,7 @@ input[type=number]::-webkit-outer-spin-button {
 #credits-modal,
 #help-modal,
 #pips-modal,
+#connect-modal,
 #sticky-footer {
     width: 100%;
     display: flex;
@@ -302,7 +304,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 #credits-modal,
 #help-modal,
-#pips-modal {
+#pips-modal,
+#connect-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -318,7 +321,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 #credits-modal h2,
 #help-modal h2,
-#pips-modal h2 {
+#pips-modal h2,
+#connect-modal h2 {
     margin-top: 0;
     color: #fff;
     border-bottom: 1px solid #555;
@@ -328,16 +332,20 @@ input[type=number]::-webkit-outer-spin-button {
 
 #credits-modal p,
 #help-modal p,
-#pips-modal p {
+#pips-modal p,
+#connect-modal p {
     margin-bottom: 1rem;
     font-size: 1rem;
     line-height: 1.4;
-    max-width: 600px
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #credits-modal a,
 #help-modal a,
-#pips-modal a {
+#pips-modal a,
+#connect-modal a {
     color: #4da6ff;
     text-align: center
 }
@@ -500,12 +508,12 @@ input[type=number]::-webkit-outer-spin-button {
 
 .pips-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     width: 100%;
     max-width: 420px;
     margin: 1rem auto;
-    max-height: 60vh; 
+    max-height: 60vh;
     overflow-y: auto;
 }
 
@@ -516,7 +524,7 @@ input[type=number]::-webkit-outer-spin-button {
 .pip-label {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start; 
+    justify-content: flex-start;
     align-items: center;
     padding: 0.5rem 1rem;
     gap: 1rem;
@@ -525,8 +533,8 @@ input[type=number]::-webkit-outer-spin-button {
     background: rgba(0, 0, 0, 0.4);
     cursor: pointer;
     transition: all 0.2s;
-    height: 100%; 
-    min-height: 4.5rem; 
+    height: 100%;
+    min-height: 4.5rem;
 }
 
 .pip-label i {
@@ -535,7 +543,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .pip-label::after {
-    white-space: pre; 
+    white-space: pre;
     text-align: left;
     font-size: 0.85rem;
     line-height: 1.1;
@@ -547,30 +555,128 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .pip-label i {
-    opacity: 0.2; 
+    opacity: 0.2;
 }
 
 .pip-label::after {
-    content: "always\ashown"; 
+    content: "always\ashown";
     font-style: normal;
     font-weight: normal;
     opacity: 0.8;
 }
 
-.pip-chk:checked + .pip-label {
+.pip-chk:checked+.pip-label {
     background: rgba(255, 255, 255, 0.15);
     border-color: var(--text-white);
 }
 
-.pip-chk:checked + .pip-label i {
+.pip-chk:checked+.pip-label i {
     opacity: 1;
 }
 
-.pip-chk:checked + .pip-label::after {
+.pip-chk:checked+.pip-label::after {
     content: "pip\a button\ahides";
     font-style: italic;
     font-weight: bold;
     opacity: 1;
+}
+
+.room-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+}
+
+.room-qr-trigger,
+.room-exit-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.room-qr-trigger i {
+    font-size: 1.2rem;
+    margin-bottom: 0.1rem;
+}
+
+.remote-players-grid {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+}
+
+.remote-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    border: 1px solid #444;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    min-width: 80px;
+    flex: 1;
+}
+
+.remote-name {
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.remote-life {
+    font-size: 2rem;
+    font-family: "Beleren Bold", sans-serif;
+    color: #fff;
+    line-height: 1;
+}
+
+.modal-input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #555;
+    color: white;
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-family: "Beleren Bold", sans-serif;
+}
+
+.connect-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.divider-line {
+    width: 100%;
+    height: 1px;
+    background: #333;
+    margin: 1rem 0;
 }
 
 @media (min-width:768px),
@@ -590,7 +696,14 @@ input[type=number]::-webkit-outer-spin-button {
         grid-template-columns: auto 1fr 50px;
         grid-template-areas: "stats mana controls";
         gap: 1rem;
-        align-items: center
+        align-items: center;
+    }
+
+    .content:has(.room-row:not(.hidden)) {
+        grid-template-rows: min-content auto;
+        grid-template-areas:
+            "room room controls"
+            "stats mana controls";
     }
 
     .top-row {
@@ -632,31 +745,33 @@ input[type=number]::-webkit-outer-spin-button {
     .controls-row {
         grid-area: controls;
         flex-direction: column;
+        align-self: stretch;
         position: sticky;
         top: 1rem;
-        gap: .5rem;
-        height: auto;
-        width: 50px
+        gap: 0.4rem;
+        height: 100%;
+        width: 50px;
     }
 
-    .control-btn {
+    .controls-row .control-btn {
         width: 3rem;
-        height: 3rem;
+        height: auto;
+        flex: 1;
+        min-height: 2rem;
         padding: 0;
-        border-radius: .5rem
+        border-radius: 0.5rem;
     }
 
-    .control-btn i {
+    .controls-row .control-btn i {
         font-size: 1.2rem
     }
 
-    .control-btn span {
+    .controls-row .control-btn span {
         display: none
     }
 
     #credits-modal:not(.hidden),
-    #help-modal:not(.hidden),
-    #pips-modal:not(.hidden) {
+    #help-modal:not(.hidden) {
         display: grid !important;
         grid-template-columns: 1fr 1fr;
         gap: .5rem 2rem;
@@ -665,23 +780,32 @@ input[type=number]::-webkit-outer-spin-button {
         position: fixed;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%)
+        transform: translate(-50%, -50%);
     }
 
     #credits-modal .close-btn,
     #credits-modal h2,
     #help-modal .close-btn,
-    #help-modal h2,
-    #pips-modal .close-btn,
-    #pips-modal h2 {
+    #help-modal h2 {
         grid-column: 1/span 2 !important;
         width: 100%;
-        text-align: center
+        text-align: center;
+    }
+
+    #credits-modal .legal-text,
+    #help-modal .legal-text {
+        grid-column: 1/span 2 !important;
+        width: 100% !important;
+        max-width: none !important;
+        text-align: left;
+        margin-top: .5rem;
+        box-sizing: border-box;
     }
 
     #credits-modal .legal-text,
     #help-modal .legal-text,
-    #pips-modal .legal-text {
+    #pips-modal .legal-text,
+    #connect-modal .legal-text {
         grid-column: 1/span 2 !important;
         width: 100% !important;
         max-width: none !important;
@@ -729,5 +853,10 @@ input[type=number]::-webkit-outer-spin-button {
         font-size: .9rem;
         padding-bottom: 0;
         margin-bottom: .25rem
+    }
+
+    .room-row {
+        grid-area: room;
+        margin-bottom: 0;
     }
 }

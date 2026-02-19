@@ -16,6 +16,9 @@
 
     <link rel="manifest" href="manifest.json">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
     <link rel="shortcut icon" type="image/svg" href="img/GU.svg">
 
     <title>Kinnan Tracker</title>
@@ -44,6 +47,19 @@
                         <button class="plus" onclick="updateValue('tax', 1)">&plus;</button>
                         <button class="minus" onclick="updateValue('tax', -1)">&minus;</button>
                     </div>
+                </div>
+            </div>
+            <div id="room-row" class="room-row hidden">
+                <div class="room-qr-trigger" onclick="showRoomQR()">
+                    <i class="ms ms-counter-brick"></i>
+                    <span>QR</span>
+                </div>
+
+                <div id="remote-players-container" class="remote-players-grid">
+                </div>
+
+                <div class="room-exit-btn" onclick="leaveRoom()">
+                    <i class="ss ss-foil ss-grad ss-bfz ss-2x"></i>
                 </div>
             </div>
             <div class="tracker-grid">
@@ -115,11 +131,14 @@
                 <button class="control-btn disabled" id="btn-tax" onclick="toggleTax()">
                     <i class="ss ss-foil ss-grad ss-cmd"></i>
                 </button>
-                <button class="control-btn" id="btn-pips" oncontextmenu="return flase;">
+                <button class="control-btn" id="btn-pips" oncontextmenu="return false;">
                     <i class="ms ss-foil ss-grad ms-watermark-colorpie"></i>
                 </button>
                 <button class="control-btn" id="btn-cmd" onclick="toggleCmdModal()">
                     <i class="ss ss-foil ss-grad ss-mic"></i>
+                </button>
+                <button class="control-btn" id="btn-connect" onclick="toggleConnectModal()">
+                    <i class="ss ss-foil ss-grad ss-eoe"></i>
                 </button>
                 <button class="control-btn" id="btn-awake" onclick="toggleWakeLock()">
                     <i class="ms ss-foil ss-grad ms-dfc-day"></i>
@@ -281,6 +300,38 @@
             <button class="close-btn" onclick="toggleCmdModal()">CLOSE</button>
         </div>
     </div>
+    <div id="connect-modal" class="hidden">
+        <div class="cmd-modal-content" style="height: auto; max-height: 90vh;">
+            <h2>Table Sync</h2>
+
+            <div id="connect-step-1">
+                <input type="text" id="conn-player-name" class="modal-input" placeholder="Your Name" maxlength="12">
+
+                <div class="divider-line"></div>
+
+                <input type="text" id="conn-room-code" class="modal-input" placeholder="Room Name" style="text-transform: uppercase;">
+
+                <div class="connect-actions">
+                    <button class="control-btn" onclick="joinRoom()">JOIN / CREATE</button>
+                    <button class="control-btn" onclick="startQRScan()">
+                        <i class="ms ms-beleren"></i> SCAN QR
+                    </button>
+                </div>
+
+                <div id="qr-reader" style="width: 100%; margin-top: 1rem;"></div>
+                <p id="conn-status" class="help-subtext">Enter a room name to start.</p>
+            </div>
+
+            <div id="connect-step-2" class="hidden" style="text-align: center;">
+                <h3>Room: <span id="display-room-code"></span></h3>
+                <div id="room-qr-display" style="display: flex; justify-content: center; margin: 1rem 0; background: white; padding: 1rem; border-radius: 0.5rem;"></div>
+                <p class="help-subtext">Scan to join the room!</p>
+                <button class="close-btn" onclick="toggleConnectModal()">CLOSE</button>
+            </div>
+
+            <button class="close-btn" id="close-connect-btn" onclick="toggleConnectModal()" style="margin-top:1rem;">CANCEL</button>
+        </div>
+    </div>
     <div id="help-modal" class="hidden">
         <h2>Help</h2>
         <p>
@@ -318,7 +369,7 @@
             Issues? Report on <a href="https://github.com/regularwave/kinnan-tracker" target="_blank">GitHub</a>
         </span>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
